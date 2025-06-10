@@ -10,8 +10,9 @@ import SwiftUI
 @main
 struct timerApp: App {
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "test") {
             ContentView()
         }
+        .defaultSize(CGSize(width: 600, height: 400))
     }
 }
