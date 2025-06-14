@@ -9,10 +9,9 @@ import SwiftUI
 
 @main
 struct timerApp: App {
-    var body: some Scene {
-        WindowGroup(id: "test") {
-            ContentView()
+    var body: some Scene{
+        WindowGroup{
+            IslandView()
         }
-        .defaultSize(CGSize(width: 600, height: 400))
     }
 }
