@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import AppKit
 
 @main
-struct timerApp: App {
-    var body: some Scene{
-        WindowGroup{
-            IslandView()
-        }
+struct TimerApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        Settings {} 
     }
 }
