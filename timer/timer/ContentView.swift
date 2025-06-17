@@ -11,7 +11,6 @@ struct ContentView: View {
     @Environment(\.openWindow) private var openWindow
     @State private var start: Bool = false 
 
-
     @State private var hour: Double = 0
     @State private var min: Double = 0
     @State private var sec: Double = 0

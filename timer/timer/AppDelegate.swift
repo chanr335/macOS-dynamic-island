@@ -1,30 +1,35 @@
 import AppKit
+import SwiftUI
 
 //lifecycle of app
 //Initialized as NSObject, but act like NSApplicationDelegate
-class AppDelegate: NSObject, NSApplicationDelegate{
-    var island: NSWindow!
+class AppDelegate: NSObject, NSApplicationDelegate {
+    var window: NSWindow!
 
-    func applicationDidFinishLaunching(_ : Notification){
-        let panelWidth: CGFloat = 200
-        let panelHeight: CGFloat = 200
+    func applicationDidFinishLaunching(_ : Notification) {
+        guard let screen = NSScreen.main else { return }//cuz its an optional
 
-        if let screenFrame = NSScreen.main?.frame{
-            let x = (screenFrame.width - panelWidth) / 2
-            let y = (screenFrame.height - panelHeight) / 2
+        let screenWidth = screen.frame.width
+        let screenHeight = screen.frame.height
 
-            let panel = NSPanel(
-                contentRect: NSRect(x: x, y: y, width: panelWidth, height: panelHeight),
-                styleMask: [.resizable],
-                backing: NSWindow.BackingStoreType.buffered,
-                defer: false
-            )
-            panel.isFloatingPanel = true
-            panel.level = .floating
-            panel.makeKeyAndOrderFront(nil)
-        }
-    }
+        let panelHeight: CGFloat = 70
+        let positionY = screenHeight - panelHeight + 5
 
-    func showPanel(){
+        window = NSWindow(
+            contentRect: NSRect(x: screenWidth / 2.675, y: positionY, width: screenWidth / 4, height: panelHeight),
+            styleMask: .borderless,
+            backing: .buffered,
+            defer: false
+        )
+
+        window.level = .statusBar 
+        window.backgroundColor = .clear
+
+        let view = DynamicIslandView()
+        let hosting = NSHostingView(rootView: view)//wraps View into NSView for NSWindow
+        hosting.frame = NSRect(x: 0, y: 0, width: screenWidth, height: panelHeight)
+        window.contentView = hosting //make NSWindow display the new NSHostingView
+        window.makeKeyAndOrderFront(nil)
     }
 }
+
