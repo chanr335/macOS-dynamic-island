@@ -3,10 +3,9 @@ import SwiftUI
 struct DynamicIslandView: View {
     var body: some View {
         HStack{
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.blue)
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.black)
                 .frame(height: 40)
-                .padding(.horizontal, 10)
         }
     }
 }
