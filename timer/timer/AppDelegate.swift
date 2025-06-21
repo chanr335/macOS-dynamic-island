@@ -1,57 +1,40 @@
 import AppKit
 import SwiftUI
 
-class DynamicIslandWindow: NSWindow {
-    var isWindowOpen: Bool = false
-
-    override func sendEvent(_ event: NSEvent) {
-        if event.type == .leftMouseDown {
-            guard let screen = NSScreen.main else { return }  //cuz its an optional
-
-            let screenWidth = screen.frame.width
-            let screenHeight = screen.frame.height
-
-            let panelHeight: CGFloat = 70
-            let panelWidth = screenWidth / 4
-            let positionX = (screenWidth - panelWidth) / 2
-            let positionY = screenHeight - panelHeight + 5
-
-            isWindowOpen.toggle()
-
-            let width = isWindowOpen ? screenWidth / 4 : screenWidth / 10
-            let x = isWindowOpen ? positionX : positionX + positionX / 5
-
-            self.setFrame(
-                NSRect(x: x, y: positionY, width: width, height: panelHeight),
-                display: true,
-                animate: true
-            )
-        }
-    }
+class SharedState: ObservableObject {
+    @Published var isWindowOpen: Bool = false
 }
 
-//lifecycle of app
-//Initialized as NSObject, but act like NSApplicationDelegate
+struct IslandLayout {
+    let screenWidth: CGFloat
+    let screenHeight: CGFloat
+    let openWidth: CGFloat = 600
+    let height: CGFloat = 70
+
+    init(screen: NSScreen) {
+        self.screenWidth = screen.frame.width
+        self.screenHeight = screen.frame.height
+    }
+
+    var openOriginX: CGFloat { centerX - (openWidth / 2) }
+    var centerX: CGFloat {screenWidth / 2}
+    var positionY: CGFloat {screenHeight - height + 5}
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var window: DynamicIslandWindow!
+    var window: NSWindow!
+    let windowState = SharedState()
 
     func applicationDidFinishLaunching(_: Notification) {
-        guard let screen = NSScreen.main else { return }  //cuz its an optional
+        guard let screen = NSScreen.main else { return }
+        let layout = IslandLayout(screen: screen)
 
-        let screenWidth = screen.frame.width
-        let screenHeight = screen.frame.height
-
-        let panelHeight: CGFloat = 70
-        let panelWidth = screenWidth / 4
-        let positionX = (screenWidth - panelWidth) / 2
-        let positionY = screenHeight - panelHeight + 5
-
-        window = DynamicIslandWindow(
+        window = NSWindow(
             contentRect: NSRect(
-                x: positionX + positionX / 5,
-                y: positionY,
-                width: screenWidth / 10,
-                height: panelHeight
+                x: layout.openOriginX,
+                y: layout.positionY,
+                width: layout.openWidth,
+                height: layout.height
             ),
             styleMask: .borderless,
             backing: .buffered,
@@ -61,15 +44,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.level = .statusBar
         window.backgroundColor = .clear
 
-        let view = DynamicIslandView()
-        let hosting = NSHostingView(rootView: view)  //wraps View into NSView for NSWindow
-        hosting.frame = NSRect(
-            x: 0,
-            y: 0,
-            width: screenWidth,
-            height: panelHeight
-        )
-        window.contentView = hosting  //make NSWindow display the new NSHostingView
+        let view = DynamicIslandView(state: windowState)
+        let hosting = NSHostingView(rootView: view)
+        hosting.frame = NSRect(x: 0, y: 0, width: layout.openWidth, height: layout.height)
+
+        window.contentView = hosting
         window.makeKeyAndOrderFront(nil)
     }
 }
