@@ -11,7 +11,9 @@ struct DynamicIslandView: View {
     @State private var hundredth: Double = 0
     @State private var timer: Timer? = nil
 
-    // @State var content = StopwatchView(start: $start, hour: $hour, min: $min, sec: $sec, hundredth: $hundredth, timer: $timer)
+    @State private var input: String = ""
+
+    @State private var content: Int = 1
 
     var body: some View {
         HStack {
@@ -19,7 +21,7 @@ struct DynamicIslandView: View {
             ZStack (alignment: .leading){
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black)
-                    .frame(width: state.isWindowOpen ? 600 : 100, height: 37)
+                    .frame(width: state.isWindowOpen ? 700 : 100, height: 37)
                     .onTapGesture {
                         withAnimation(.easeOut(duration: 0.3)) {
                             state.isWindowOpen.toggle()
@@ -40,8 +42,12 @@ struct DynamicIslandView: View {
                     .overlay(
                         Group{
                             if showContent{
-                                // content
-                                StopwatchView(start: $start, hour: $hour, min: $min, sec: $sec, hundredth: $hundredth, timer: $timer)
+                                if content == 1{
+                                    StopwatchView(start: $start, hour: $hour, min: $min, sec: $sec, hundredth: $hundredth, timer: $timer, content: $content)
+                                }
+                                if content == 2{
+                                    TimerView(start: $start, hour: $hour, min: $min, sec: $sec, hundredth: $hundredth, timer: $timer, content: $content, input: $input,)
+                                }
                             }
                         }
                     )

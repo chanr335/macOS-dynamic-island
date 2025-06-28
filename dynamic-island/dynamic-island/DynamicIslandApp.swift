@@ -9,7 +9,7 @@ import SwiftUI
 import AppKit
 
 @main
-struct TimerApp: App {
+struct DynamicIslandAPp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {

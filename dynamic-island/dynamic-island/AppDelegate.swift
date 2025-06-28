@@ -8,7 +8,7 @@ class SharedState: ObservableObject {
 struct IslandLayout {
     let screenWidth: CGFloat
     let screenHeight: CGFloat
-    let openWidth: CGFloat = 600
+    let openWidth: CGFloat = 700
     let height: CGFloat = 70
 
     init(screen: NSScreen) {
@@ -17,19 +17,25 @@ struct IslandLayout {
     }
 
     var openOriginX: CGFloat { centerX - (openWidth / 2) }
-    var centerX: CGFloat {screenWidth / 2}
-    var positionY: CGFloat {screenHeight - height + 5}
+    var centerX: CGFloat { screenWidth / 2 }
+    var positionY: CGFloat { screenHeight - height + 5 }
+}
+
+class IslandWindow: NSWindow {
+    //this is needed to allow keyboard input for TimerView
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var window: NSWindow!
+    var window: IslandWindow!
     let windowState = SharedState()
 
-    func applicationDidFinishLaunching(_: Notification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         guard let screen = NSScreen.main else { return }
         let layout = IslandLayout(screen: screen)
 
-        window = NSWindow(
+        window = IslandWindow(
             contentRect: NSRect(
                 x: layout.openOriginX,
                 y: layout.positionY,

@@ -1,21 +1,25 @@
 {
   "images" : [
     {
+      "filename" : "appIcon16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
+      "filename" : "appIcon32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "appIcon32 1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "appIcon64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
@@ -41,11 +45,13 @@
       "size" : "256x256"
     },
     {
+      "filename" : "appIcon512.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
+      "filename" : "appIcon 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

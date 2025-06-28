@@ -7,6 +7,7 @@ struct StopwatchView: View{
     @Binding var sec: Double
     @Binding var hundredth: Double
     @Binding var timer: Timer?
+    @Binding var content: Int
 
     var body: some View{
         HStack{
@@ -16,6 +17,16 @@ struct StopwatchView: View{
                 .foregroundColor(Color.white)
 
             Spacer()
+
+            Button("Timer"){
+                start = false
+                content = 2
+                hour = 0
+                min = 0
+                sec = 0
+                hundredth = 0
+            }
+
             Button("Start"){
                 if !start{
                     start = true
@@ -53,5 +64,6 @@ struct StopwatchView: View{
         }
         .padding(.trailing, 10)
         }
+
     }
 }
