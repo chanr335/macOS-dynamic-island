@@ -4,7 +4,7 @@
 ## Overview
 
 A dynamic island UI for the macOS notch, inspired by the iOS dynamic island.
-Current has a simple timer and stopwatch for productivity.
+Currently has a simple timer and stopwatch for productivity.
 
 ## Run Locally
 
